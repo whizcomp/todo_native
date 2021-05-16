@@ -1,28 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, FlatList, Alert, StyleSheet } from "react-native";
 import ListBox from "../Reusable/ListBox";
 import AppInput from "../Reusable/AppInput";
-
+import { insert, fetch } from "../db/todo";
 export default function Todo() {
-  const [data, setData] = useState([
-    { id: 1, title: "my first task", finished: true },
-    { id: 2, title: "my second task", finished: false },
-    { id: 3, title: "my third task", finished: true }
-  ]);
+  const [data, setData] = useState([]);
+  const fetchData = async () => {
+    const result = await fetch();
+    console.log(result.rows._array);
+    setData(result.rows._array);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   const [todo, setTodo] = useState("");
-  const addTask = task => {
+  const addTask = async task => {
     const todos = {
       id: data.length + 1,
       title: task,
-      finished: false
+      complete: false
     };
-    console.log(todos);
-    setData(data => [...data, todos]);
-    setTodo(todo => setTodo(""));
+    try {
+      const result = await insert(todos.title, todos.complete);
+      console.log(result);
+      setData(data => [...data, todos]);
+      setTodo(todo => setTodo(""));
+    } catch (error) {}
   };
   const handleCheck = item => {
     const action = data.indexOf(item);
-    data[action].finished = !data[action].finished;
+    data[action].complete = !data[action].complete;
     setData(data => [...data]);
   };
   const actionDelete = item => {
@@ -46,7 +53,7 @@ export default function Todo() {
         renderItem={({ item }) => (
           <ListBox
             text={item.title}
-            name={!item.finished ? "checkbox-blank-outline" : "checkbox-marked"}
+            name={!item.complete ? "checkbox-blank-outline" : "checkbox-marked"}
             onPress={() => handleCheck(item)}
             onDelete={() => handleDelete(item)}
           />
