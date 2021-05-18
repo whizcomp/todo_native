@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, FlatList, Alert, StyleSheet } from "react-native";
 import ListBox from "../Reusable/ListBox";
 import AppInput from "../Reusable/AppInput";
+import Text from "../Reusable/AppText";
+import { Entypo } from "@expo/vector-icons";
 import { insert, fetch, update, remove } from "../db/todo";
 export default function Todo({ visible }) {
   const [data, setData] = useState([]);
@@ -60,19 +62,28 @@ export default function Todo({ visible }) {
   };
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <ListBox
-            text={item.title}
-            name={!item.complete ? "checkbox-blank-outline" : "checkbox-marked"}
-            onPress={() => handleCheck(item)}
-            onLongPress={() => handleDelete(item)}
-            onDelete={() => handleDelete(item)}
-          />
-        )}
-        keyExtractor={item => item.id.toString()}
-      />
+      {data.length > 0 ? (
+        <FlatList
+          data={data}
+          renderItem={({ item }) => (
+            <ListBox
+              text={item.title}
+              name={
+                !item.complete ? "checkbox-blank-outline" : "checkbox-marked"
+              }
+              onPress={() => handleCheck(item)}
+              onLongPress={() => handleDelete(item)}
+              onDelete={() => handleDelete(item)}
+            />
+          )}
+          keyExtractor={item => item.id.toString()}
+        />
+      ) : (
+        <View style={styles.empty}>
+          <Entypo name="new-message" size={30} color="black" />
+          <Text style={styles.text}>Add a new Task</Text>
+        </View>
+      )}
       {!visible && (
         <AppInput
           value={todo}
@@ -87,5 +98,13 @@ export default function Todo({ visible }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  empty: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  text: {
+    fontSize: 23
   }
 });

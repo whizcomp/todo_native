@@ -9,7 +9,7 @@ export default function AppInput({ value, send, onChangeText, onPress }) {
         style={styles.input}
         value={value}
         onChangeText={onChangeText}
-        placeholder="Add to list"
+        placeholder="Add new task"
       />
       {send ? (
         <MaterialCommunityIcons
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     right: 3,
     width: "100%",
     bottom: 3,
-    backgroundColor: "#bfbfbf",
+    backgroundColor: "silver",
     padding: 10,
     marginHorizontal: 7,
     flexDirection: "row",
