@@ -48,7 +48,7 @@ export default function Todo({ visible }) {
     } catch (error) {}
   };
   const handleDelete = item => {
-    Alert.alert("Delete user", "Are you sure to delete", [
+    Alert.alert("Delete task", "Are you sure to delete the task", [
       { text: "cancel" },
       {
         text: "Confirm",
@@ -67,6 +67,7 @@ export default function Todo({ visible }) {
             text={item.title}
             name={!item.complete ? "checkbox-blank-outline" : "checkbox-marked"}
             onPress={() => handleCheck(item)}
+            onLongPress={() => handleDelete(item)}
             onDelete={() => handleDelete(item)}
           />
         )}

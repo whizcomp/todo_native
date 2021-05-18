@@ -3,10 +3,20 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Text from "./AppText";
-export default function ListBox({ name, text, onPress, onDelete }) {
+export default function ListBox({
+  name,
+  text,
+  onPress,
+  onDelete,
+  onLongPress
+}) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.item} onPress={onPress}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={onPress}
+        onLongPress={onLongPress}
+      >
         <MaterialCommunityIcons name={name} size={25} />
         <Text style={styles.text}>{text}</Text>
       </TouchableOpacity>
