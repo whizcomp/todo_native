@@ -1,18 +1,21 @@
-// import { StatusBar } from 'expo-status-bar';
-import React from "react";
-import { StyleSheet, Text, View, StatusBar } from "react-native";
-import Todo from "./components/Todo";
-import AppText from "./Reusable/AppText";
+import React, { useState } from "react";
+import { StyleSheet, View, StatusBar } from "react-native";
+// import AppText from "./Reusable/AppText";
+import Opener from "./Opener";
 import { init } from "./db/todo";
-
+import Todo from "./components/Todo";
 init()
-  .then(() => console.log("db init"))
-  .catch(err => console.log(`failed to init db`, err));
+  .then(() => console.log("welcome"))
+  .catch(err => console.log("error", err));
 export default function App() {
+  const [visible, setVisible] = useState(true);
+  const onAnimationFinish = () => {
+    setVisible(false);
+  };
   return (
     <View style={styles.container}>
-      <AppText style={styles.header}>To do List</AppText>
-      <Todo />
+      <Opener visible={visible} onAnimationFinish={onAnimationFinish} />
+      <Todo visible={visible}/>
     </View>
   );
 }
@@ -20,10 +23,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D3D3D3",
     paddingTop: StatusBar.currentHeight
-  },
-  header: {
-    paddingVertical: 10
   }
 });

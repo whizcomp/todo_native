@@ -3,7 +3,7 @@ import { View, FlatList, Alert, StyleSheet } from "react-native";
 import ListBox from "../Reusable/ListBox";
 import AppInput from "../Reusable/AppInput";
 import { insert, fetch, update, remove } from "../db/todo";
-export default function Todo() {
+export default function Todo({ visible }) {
   const [data, setData] = useState([]);
   const fetchData = async () => {
     const result = await fetch();
@@ -72,12 +72,14 @@ export default function Todo() {
         )}
         keyExtractor={item => item.id.toString()}
       />
-      <AppInput
-        value={todo}
-        send={todo}
-        onChangeText={todo => setTodo(todo)}
-        onPress={() => addTask(todo)}
-      />
+      {!visible && (
+        <AppInput
+          value={todo}
+          send={todo}
+          onChangeText={todo => setTodo(todo)}
+          onPress={() => addTask(todo)}
+        />
+      )}
     </View>
   );
 }
