@@ -63,21 +63,26 @@ export default function Todo({ visible }) {
   return (
     <View style={styles.container}>
       {data.length > 0 ? (
-        <FlatList
-          data={data}
-          renderItem={({ item }) => (
-            <ListBox
-              text={item.title}
-              name={
-                !item.complete ? "checkbox-blank-outline" : "checkbox-marked"
-              }
-              onPress={() => handleCheck(item)}
-              onLongPress={() => handleDelete(item)}
-              onDelete={() => handleDelete(item)}
-            />
-          )}
-          keyExtractor={item => item.id.toString()}
-        />
+        <>
+          <View style={styles.header}>
+            <Text>My Todo List</Text>
+          </View>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => (
+              <ListBox
+                text={item.title}
+                name={
+                  !item.complete ? "checkbox-blank-outline" : "checkbox-marked"
+                }
+                onPress={() => handleCheck(item)}
+                onLongPress={() => handleDelete(item)}
+                onDelete={() => handleDelete(item)}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        </>
       ) : (
         <View style={styles.empty}>
           <Entypo name="new-message" size={30} color="black" />
@@ -106,5 +111,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 23
+  },
+  header: {
+    paddingVertical: 17,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
